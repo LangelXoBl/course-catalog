@@ -1,0 +1,66 @@
+import type { Course } from '../types/Course';
+
+export const initialCourses: Course[] = [
+  {
+    id: 1,
+    title: 'React desde 0',
+    description:
+      'En este modulo aprenderás los fundamentos de React, incluyendo componentes, hooks, y manejo de estado.',
+    instructor: 'Ana García',
+    level: 'beginner',
+    category: 'web_development',
+    start_date: '2025-01-15',
+    duration: '8 horas',
+  },
+  {
+    id: 2,
+    title: 'TypeScript Avanzado',
+    description:
+      'Domina TypeScript con patrones avanzados, tipos genéricos, y mejores prácticas para proyectos grandes.',
+    instructor: 'Carlos Mendoza',
+    level: 'advanced',
+    category: 'web_development',
+    start_date: '2025-01-20',
+    duration: '12 horas',
+  },
+  {
+    id: 3,
+    title: 'Desarrollo Mobile con Flutter',
+    description: 'Aprende a crear aplicaciones móviles nativas con Flutter para iOS y Android.',
+    instructor: 'María López',
+    level: 'intermediate',
+    category: 'mobile_development',
+    start_date: '2025-01-25',
+    duration: '16 horas',
+  },
+  {
+    id: 4,
+    title: 'Introducción a Data Science',
+    description: 'Fundamentos de ciencia de datos, análisis exploratorio y visualización de datos.',
+    instructor: 'Roberto Silva',
+    level: 'beginner',
+    category: 'data_science',
+    start_date: '2025-02-01',
+    duration: '10 horas',
+  },
+  {
+    id: 5,
+    title: 'Diseño UX/UI Profesional',
+    description: 'Aprende a diseñar interfaces atractivas y experiencias de usuario excepcionales.',
+    instructor: 'Laura Martínez',
+    level: 'intermediate',
+    category: 'design',
+    start_date: '2025-02-05',
+    duration: '14 horas',
+  },
+  {
+    id: 6,
+    title: 'Marketing Digital',
+    description: 'Estrategias de marketing digital, SEO, SEM y redes sociales para tu negocio.',
+    instructor: 'Pedro Ramírez',
+    level: 'beginner',
+    category: 'business',
+    start_date: '2025-02-10',
+    duration: '6 horas',
+  },
+];

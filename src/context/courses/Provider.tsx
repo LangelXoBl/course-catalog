@@ -1,13 +1,36 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { CoursesContext, type CoursesContextType } from './Context';
 import type { Course, CourseCategory, CourseFormData, CourseLevel } from '../../types/Course';
+import { initialCourses } from '../../constants/seedCourses';
 
 interface Props {
   children: ReactNode;
 }
+
+const COURSE_STORAGE_KEY = 'courses';
+const FAVORITES_STORAGE_KEY = 'favorite_courses';
+
+const loadCourses = () => {
+  const storedCourses = localStorage.getItem(COURSE_STORAGE_KEY);
+  return storedCourses ? JSON.parse(storedCourses) : initialCourses;
+};
+
+const saveCourses = (courses: Course[]) => {
+  localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(courses));
+};
+
+const loadFavoriteCourses = (): Set<number> => {
+  const storedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
+  return storedFavorites ? new Set(JSON.parse(storedFavorites)) : new Set<number>();
+};
+
+const saveFavoriteCourses = (favorites: Set<number>) => {
+  localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(Array.from(favorites)));
+};
+
 export const CoursesProvider = ({ children }: Props) => {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [favorites, setFavorites] = useState(new Set<number>());
+  const [courses, setCourses] = useState<Course[]>(loadCourses());
+  const [favorites, setFavorites] = useState(loadFavoriteCourses());
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterLevel, setFilterLevel] = useState<CourseLevel | 'all'>('all');
   const [filterCategory, setFilterCategory] = useState<CourseCategory | 'all'>('all');
@@ -58,6 +81,14 @@ export const CoursesProvider = ({ children }: Props) => {
       return validCategory && validLevel;
     });
   };
+
+  useEffect(() => {
+    saveCourses(courses);
+  }, [courses]);
+
+  useEffect(() => {
+    saveFavoriteCourses(favorites);
+  }, [favorites]);
 
   const value: CoursesContextType = {
     courses,

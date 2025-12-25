@@ -1,4 +1,4 @@
-export type CourseLevel = 'principiante' | 'intermedio' | 'avanzado';
+export type CourseLevel = 'beginner' | 'intermediate' | 'advanced';
 
 export type CourseCategory =
   | 'web_development'

@@ -7,8 +7,9 @@ export const Home = () => {
   const { getFilteredCourses } = useCourses();
   const courses = getFilteredCourses();
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center gap-4">
+    <section className="flex flex-col items-center gap-8 p-4 bg-surface text-content shadow-xl rounded-2xl">
+      <h1 className="text-2xl font-bold">Cursos disponibles</h1>
+      <div className=" w-full flex justify-between items-center gap-4">
         <SearchBar />
         <FilterBar />
       </div>
@@ -17,6 +18,6 @@ export const Home = () => {
           return <CourseCard key={course.id} Course={course} />;
         })}
       </div>
-    </div>
+    </section>
   );
 };

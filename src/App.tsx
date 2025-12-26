@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { CoursesProvider } from './context/courses/Provider';
 import { Create } from './pages/Create';
 import { Layout } from './components/Layout';
+import { Edit } from './pages/Edit';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/create" element={<Create />} />
+              <Route path="/edit/:id" element={<Edit />} />
               <Route path="/favorites" element={<h1>Favorites</h1>} />
             </Routes>
           </Layout>

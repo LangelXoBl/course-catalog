@@ -4,6 +4,7 @@ import type { Course } from '../types/Course';
 import { FavoriteToggle } from './FavoriteToggle';
 import { ClockIcon } from './icons/Clock';
 import { LevelIcon } from './icons/Level';
+import { useNavigate } from 'react-router';
 
 interface Props {
   Course: Course;
@@ -18,9 +19,16 @@ const getLevelLabel = (level: Course['level']) => {
 };
 
 export const CourseCard = ({ Course }: Props) => {
-  const { toggleFavorite, favorites } = useCourses();
+  const navigate = useNavigate();
+  const { favorites, toggleFavorite, deleteCourse } = useCourses();
 
   const isFavorite = favorites.has(Course.id);
+
+  const handleDelete = () => {
+    if (window.confirm(`¿Estás seguro de eliminar el curso "${Course.title}"?`)) {
+      deleteCourse(Course.id);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2 bg-card text-content border-2 border-tertiary hover:border-primary p-2 rounded-lg shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-200">
@@ -45,6 +53,22 @@ export const CourseCard = ({ Course }: Props) => {
         </div>
       </div>
       <p>{Course.description}</p>
+      <div className="flex justify-end gap-2">
+        <button
+          className="p-2 rounded-md text-white bg-primary hover:bg-primary/10 hover:text-primary"
+          type="button"
+          onClick={() => navigate('/edit/' + Course.id)}
+        >
+          Editar
+        </button>
+        <button
+          className="p-2 rounded-md text-white bg-danger hover:bg-danger/10 hover:text-danger"
+          type="button"
+          onClick={handleDelete}
+        >
+          Eliminar
+        </button>
+      </div>
     </div>
   );
 };

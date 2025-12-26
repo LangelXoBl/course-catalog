@@ -56,7 +56,10 @@ export const CoursesProvider = ({ children }: Props) => {
   };
 
   const deleteCourse = (id: number) => {
-    setCourses(courses.filter((course) => course.id === id));
+    setCourses(courses.filter((course) => course.id !== id));
+    if (favorites.has(id)) {
+      toggleFavorite(id);
+    }
   };
 
   const toggleFavorite = (courseId: number) => {

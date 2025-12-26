@@ -1,4 +1,4 @@
-import type { Course } from '../types/Course';
+import type { Course, CourseCategory, CourseLevel } from '../types/Course';
 
 export const initialCourses: Course[] = [
   {
@@ -64,3 +64,17 @@ export const initialCourses: Course[] = [
     duration: '6 horas',
   },
 ];
+
+export const labelCategory: Record<CourseCategory, string> = {
+  web_development: 'Desarrollo Web',
+  mobile_development: 'Desarrollo Móvil',
+  data_science: 'Ciencia de Datos',
+  design: 'Diseño',
+  business: 'Negocios',
+};
+
+export const labelLevel: Record<CourseLevel, string> = {
+  beginner: 'Principiante',
+  intermediate: 'Intermedio',
+  advanced: 'Avanzado',
+};

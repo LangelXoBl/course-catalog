@@ -6,7 +6,7 @@ interface Props {
 }
 export const Layout = ({ children }: Props) => {
   return (
-    <div className="min-h-dvh mx-auto bg-surface">
+    <div className="min-h-dvh mx-auto bg-background">
       <Navbar />
       <main className="w-3/5 mx-auto p-4">{children}</main>
     </div>

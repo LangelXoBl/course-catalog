@@ -7,7 +7,7 @@ export const Home = () => {
   return (
     <div className="grid grid-cols-2 gap-4">
       {courses.map((course) => {
-        return <CourseCard Course={course} />;
+        return <CourseCard key={course.id} Course={course} />;
       })}
     </div>
   );

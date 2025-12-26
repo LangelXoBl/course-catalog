@@ -1,18 +1,16 @@
+import { CourseForm } from '../components/CourseForm';
 import { useCourses } from '../hooks/useCourses';
+import type { CourseFormData } from '../types/Course';
 
 export const Create = () => {
   const { addCourse } = useCourses();
-  const handleAddCourse = () => {
-    addCourse({
-      title: 'React desde 0',
-      description:
-        'En este modulo aprenderás los fundamentos de React, incluyendo componentes, hooks, y manejo de estado.',
-      instructor: 'Ana García',
-      level: 'principiante',
-      category: 'web_development',
-      start_date: '2025-01-15',
-      duration: '8 horas',
-    });
-  };
-  return <button onClick={handleAddCourse}>Añadir</button>;
+
+  const handleAddCourse = (payload: CourseFormData) => addCourse(payload);
+
+  return (
+    <section className="flex flex-col items-center gap-2 p-4 bg-surface text-content shadow-xl rounded-2xl">
+      <h1 className="text-2xl font-bold">Crear un nuevo curso</h1>
+      <CourseForm onSubmit={handleAddCourse} submitButtonText="Añadir" />
+    </section>
+  );
 };

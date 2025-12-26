@@ -31,7 +31,7 @@ export const CourseCard = ({ Course }: Props) => {
         </div>
         <FavoriteToggle isFavorite={isFavorite} onClick={() => toggleFavorite(Course.id)} />
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap gap-2">
         <span className="border border-tertiary text-sm px-2 py-1 rounded-md">
           {getCategoryLabel(Course.category)}
         </span>

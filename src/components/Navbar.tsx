@@ -3,7 +3,7 @@ import { ThemeToggle } from './ThemeToggle';
 
 export const Navbar = () => {
   return (
-    <nav className="bg-surface text-content shadow-md">
+    <nav className="bg-surface text-content shadow-md py-4">
       <div className="w-3/5 mx-auto flex justify-between items-center">
         <Link className="text-primary text-2xl font-bold" to="/">
           Catálogo de Cursos

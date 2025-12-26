@@ -78,10 +78,13 @@ export const CoursesProvider = ({ children }: Props) => {
 
   const getFilteredCourses = () => {
     return courses.filter((course) => {
-      const validCategory = filterCategory === 'all' ? true : filterCategory === course.category;
-      const validLevel = filterLevel === 'all' ? true : filterLevel === course.level;
+      const matchesSearchTerm =
+        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = filterCategory === 'all' || filterCategory === course.category;
+      const matchesLevel = filterLevel === 'all' || filterLevel === course.level;
 
-      return validCategory && validLevel;
+      return matchesSearchTerm && matchesCategory && matchesLevel;
     });
   };
 

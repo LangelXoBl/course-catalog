@@ -11,13 +11,28 @@ export const Navbar = () => {
         <div className="flex gap-4">
           <ul className="flex gap-4 list-none">
             <li>
-              <Link to="/">Todos los Cursos</Link>
+              <Link
+                className="p-2 rounded-md font-medium hover:bg-primary/10 hover:text-primary"
+                to="/"
+              >
+                Todos los Cursos
+              </Link>
             </li>
             <li>
-              <Link to="/favorites">Favoritos</Link>
+              <Link
+                className="p-2 rounded-md font-medium hover:bg-primary/10 hover:text-primary"
+                to="/favorites"
+              >
+                Favoritos
+              </Link>
             </li>
             <li>
-              <Link to="/create">+ Crear Curso</Link>
+              <Link
+                className="p-2 rounded-md font-medium hover:bg-primary/10 hover:text-primary"
+                to="/create"
+              >
+                + Crear Curso
+              </Link>
             </li>
           </ul>
           <ThemeToggle />

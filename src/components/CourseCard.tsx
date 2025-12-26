@@ -2,6 +2,7 @@ import { labelCategory, labelLevel } from '../constants/seedCourses';
 import { useCourses } from '../hooks/useCourses';
 import type { Course } from '../types/Course';
 import { FavoriteToggle } from './FavoriteToggle';
+import { ClockIcon } from './icons/Clock';
 import { LevelIcon } from './icons/Level';
 
 interface Props {
@@ -34,8 +35,13 @@ export const CourseCard = ({ Course }: Props) => {
         <span className="border border-tertiary text-sm px-2 py-1 rounded-md">
           {getCategoryLabel(Course.category)}
         </span>
-        <div className="flex items-center border border-tertiary text-sm px-2 py-1 rounded-md">
-          <LevelIcon className="fill-content" /> {getLevelLabel(Course.level)}
+        <div className="flex items-center gap-1 border border-tertiary text-sm px-2 py-1 rounded-md">
+          <LevelIcon className="fill-content" />
+          <span>{getLevelLabel(Course.level)}</span>
+        </div>
+        <div className="flex items-center gap-1 border border-tertiary text-sm px-2 py-1 rounded-md">
+          <ClockIcon className="fill-content" />
+          <span>{Course.duration}</span>
         </div>
       </div>
       <p>{Course.description}</p>

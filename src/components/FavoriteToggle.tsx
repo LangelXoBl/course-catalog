@@ -9,7 +9,7 @@ export const FavoriteToggle = ({ isFavorite, onClick }: Props) => {
   return (
     <button
       onClick={onClick}
-      className={`text-2xl ${color} transition-colors duration-100 hover:scale-110 cursor-pointer`}
+      className={`text-2xl ${color} transition-colors duration-75 hover:scale-110 cursor-pointer`}
     >
       <span>{isFavorite ? '★' : '☆'}</span>
     </button>

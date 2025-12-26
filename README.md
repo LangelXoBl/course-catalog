@@ -1,73 +1,121 @@
-# React + TypeScript + Vite
+# Catálogo de Cursos - React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web de Catálogo de Cursos desarrollada con React, TypeScript, React Router y Context API. Permite crear, visualizar, buscar, filtrar y marcar cursos como favoritos.
 
-Currently, two official plugins are available:
+## Tecnologías Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- TypeScript
+- React Router
+- Vite
+- Tailwind CSS
 
-## React Compiler
+## Características
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **CRUD Completo**: Crear, leer, actualizar y eliminar(con confirmación) cursos
+- **Navegación**: Implementada con React Router
+- **Gestión de Estado**: Context API + Custom Hook
+- **Búsqueda en Tiempo Real**: Por título o instructor
+- **Filtros**: Por categoría y nivel
+- **Favoritos**: Marcar/desmarcar cursos favoritos
+- **Persistencia**: LocalStorage para cursos, favoritos y tema (oscuro/claro)
+- **Formularios Controlados**: Validación de campos
+- **Responsive Design**: Adaptable a diferentes dispositivos
+- **TypeScript**: Tipado estático para mayor seguridad
 
-## Expanding the ESLint configuration
+## Instalación y Ejecución
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisitos
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js (v18 o superior)
+- pnpm, npm o yarn
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Pasos
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clonar el repositorio o descargar el código
+
+2. Instalar las dependencias:
+```bash
+pnpm install
+# o
+npm install
+# o
+yarn install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. Ejecutar el servidor de desarrollo:
+```bash
+pnpm run dev
+# o
+npm run dev
+# o
+yarn dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+4. Abrir el navegador en la URL que aparece en la consola (generalmente http://localhost:5173)
+
+### Otros Comandos
+
+```bash
+# Compilar para producción
+pnpm run build
+
+# Previsualizar build de producción
+pnpm run preview
+
+# Ejecutar linter
+pnpm run lint
+```
+
+## Estructura del Proyecto
+
+```
+src/
+├── components/          # Componentes reutilizables
+│   ├── CourseCard.tsx   # Tarjeta de curso
+│   ├── CourseForm.tsx   # Formulario crear/editar
+│   ├── FilterBar.tsx    # Barra de filtros
+│   ├── Navbar.tsx       # Barra de navegación
+│   └── SearchBar.tsx    # Barra de búsqueda
+├── context/             # Context API
+│   └── CoursesContext.tsx
+├── data/                # Datos iniciales
+│   └── initialCourses.ts
+├── hooks/               # Custom hooks
+│   └── useCourses.ts
+├── pages/               # Páginas de la aplicación
+│   ├── CreateCourse.tsx
+│   ├── EditCourse.tsx
+│   ├── Favorites.tsx
+│   └── Home.tsx
+├── types/               # Tipos TypeScript
+│   └── course.ts
+├── App.tsx              # Componente principal
+├── App.css              # Estilos principales
+├── index.css            # Estilos globales
+└── main.tsx             # Punto de entrada
+```
+
+## Rutas de la Aplicación
+
+- `/` Página principal con todos los cursos
+- `/favorites` Cursos marcados como favoritos
+- `/create` Formulario para crear un nuevo curso
+- `/edit/:id` Formulario para editar un curso existente
+- `/courses/:id` Detalles del curso con ID
+
+## Estructura de Datos
+
+```typescript
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+  instructor: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  category: 'web_development' | 'mobile_development' | 'data_science' | 'design' | 'business';
+  start_date: string;
+  duration: string;
+}
 ```

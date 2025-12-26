@@ -4,7 +4,7 @@ import type { Course } from '../types/Course';
 import { FavoriteToggle } from './FavoriteToggle';
 import { ClockIcon } from './icons/Clock';
 import { LevelIcon } from './icons/Level';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 interface Props {
   Course: Course;
@@ -34,7 +34,9 @@ export const CourseCard = ({ Course }: Props) => {
     <div className="flex flex-col gap-2 bg-card text-content border-2 border-tertiary hover:border-primary p-2 rounded-lg shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-200">
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
-          <span className="font-bold text-xl">{Course.title}</span>
+          <Link className="text-primary hover:underline" to={`/details/${Course.id}`}>
+            <span className="font-bold text-xl">{Course.title}</span>
+          </Link>
           <span className="text-muted">{Course.instructor}</span>
         </div>
         <FavoriteToggle isFavorite={isFavorite} onClick={() => toggleFavorite(Course.id)} />

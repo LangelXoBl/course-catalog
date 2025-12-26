@@ -6,6 +6,7 @@ import { Create } from './pages/Create';
 import { Layout } from './components/Layout';
 import { Edit } from './pages/Edit';
 import { Favorites } from './pages/Favorites';
+import { Details } from './pages/Details';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/create" element={<Create />} />
               <Route path="/edit/:id" element={<Edit />} />
               <Route path="/favorites" element={<Favorites />} />
+              <Route path="/details/:id" element={<Details />} />
             </Routes>
           </Layout>
         </CoursesProvider>

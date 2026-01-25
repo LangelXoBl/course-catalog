@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggle } from '../ThemeToggle';
+import { useCourses } from '../../hooks/useCourses';
 
 export const Navbar = () => {
   return (
@@ -23,7 +24,7 @@ export const Navbar = () => {
                 className="p-2 rounded-md font-medium hover:bg-primary/10 hover:text-primary"
                 to="/favorites"
               >
-                Favoritos
+                Favoritos <FavoritesBadge />
               </Link>
             </li>
             <li>
@@ -39,5 +40,17 @@ export const Navbar = () => {
         </div>
       </div>
     </nav>
+  );
+};
+
+const FavoritesBadge = () => {
+  const { favorites } = useCourses();
+  return (
+    <span
+      className="ml-1 inline-block bg-danger text-white text-xs font-bold px-2 py-1 rounded-full"
+      title={`${favorites.size} cursos favoritos`}
+    >
+      {favorites.size}
+    </span>
   );
 };

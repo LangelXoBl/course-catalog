@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router';
 import type { CourseFormData, CourseLevel, CourseCategory } from '../types/Course';
+import { useCourses } from '../hooks/useCourses';
 
 interface Props {
   initialData?: CourseFormData;
@@ -26,6 +27,8 @@ export const CourseForm = ({
   const navigate = useNavigate();
   const [formData, setFormData] = useState<CourseFormData>(initialData);
   const [errors, setErrors] = useState<Partial<Record<keyof CourseFormData, string>>>({});
+  const { instructors } = useCourses();
+  const [selectedAuthor, setSelectedAuthor] = useState<string>(initialData.instructor);
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof CourseFormData, string>> = {};
@@ -70,6 +73,11 @@ export const CourseForm = ({
     }
   };
 
+  const handleSelectAuthor = (author: string) => {
+    setSelectedAuthor(author);
+    setFormData({ ...formData, instructor: author === 'Otro' ? '' : author });
+  };
+
   return (
     <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6 p-4">
       <div>
@@ -104,20 +112,51 @@ export const CourseForm = ({
         {errors.description && <span className="text-danger">{errors.description}</span>}
       </div>
 
-      <div>
-        <label htmlFor="instructor">
-          Instructor <span className="text-danger">*</span>
-        </label>
-        <input
-          className={`w-full p-2 border-2 rounded-lg ${
-            errors.instructor ? 'border-danger' : ' border-tertiary'
-          }`}
-          type="text"
-          id="instructor"
-          value={formData.instructor}
-          onChange={(e) => handleChange('instructor', e.target.value)}
-        />
-        {errors.instructor && <span className="text-danger">{errors.instructor}</span>}
+      <div className="flex justify-between gap-8">
+        <div className="w-full">
+          <label htmlFor="instructor">
+            Instructor {selectedAuthor !== 'Otro' && <span className="text-danger">*</span>}
+          </label>
+          <select
+            className={`w-full p-2 border-2 rounded-lg bg-surface ${
+              errors.instructor && selectedAuthor !== 'Otro' ? 'border-danger' : ' border-tertiary'
+            }`}
+            id="instructor"
+            value={selectedAuthor}
+            onChange={(e) => handleSelectAuthor(e.target.value)}
+          >
+            <option key="placeholder" value="">
+              Seleccione un instructor
+            </option>
+            {instructors.map((author) => (
+              <option key={author} value={author}>
+                {author}
+              </option>
+            ))}
+            <option value="Otro">Otro</option>
+          </select>
+          {errors.instructor && selectedAuthor !== 'Otro' && (
+            <span className="text-danger">{errors.instructor}</span>
+          )}
+        </div>
+        {selectedAuthor === 'Otro' && (
+          <div className="w-full">
+            <label htmlFor="instructor">
+              Instructor <span className="text-danger">*</span>
+            </label>
+            <input
+              className={`w-full p-2 border-2 rounded-lg ${
+                errors.instructor ? 'border-danger' : ' border-tertiary'
+              }`}
+              type="text"
+              id="instructor"
+              placeholder="Nombre del instructor"
+              value={formData.instructor}
+              onChange={(e) => handleChange('instructor', e.target.value)}
+            />
+            {errors.instructor && <span className="text-danger">{errors.instructor}</span>}
+          </div>
+        )}
       </div>
 
       <div className="flex justify-between gap-8">
@@ -201,7 +240,7 @@ export const CourseForm = ({
         <button
           className="p-2 rounded-md font-medium bg-muted hover:bg-muted/10 hover:text-muted"
           type="button"
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
         >
           Cancelar
         </button>

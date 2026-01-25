@@ -3,8 +3,7 @@ import { CourseCard } from '../components/CourseCard';
 import { useCourses } from '../hooks/useCourses';
 
 export const Favorites = () => {
-  const { getFavoriteCourses } = useCourses();
-  const favoriteCourses = getFavoriteCourses();
+  const { favoriteCourses } = useCourses();
 
   return (
     <section className="flex flex-col items-center gap-2 p-4 bg-surface text-content shadow-xl rounded-2xl">

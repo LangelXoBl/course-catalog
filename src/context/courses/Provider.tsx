@@ -1,39 +1,94 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { CoursesContext, type CoursesContextType } from './Context';
 import type { Course, CourseCategory, CourseFormData, CourseLevel } from '../../types/Course';
-import { initialCourses } from '../../constants/seedCourses';
+import { loadCourses, loadFavoriteCourses, saveCourses, saveFavoriteCourses } from './localStorage';
 
 interface Props {
   children: ReactNode;
 }
 
-const COURSE_STORAGE_KEY = 'courses';
-const FAVORITES_STORAGE_KEY = 'favorite_courses';
-
-const loadCourses = () => {
-  const storedCourses = localStorage.getItem(COURSE_STORAGE_KEY);
-  return storedCourses ? JSON.parse(storedCourses) : initialCourses;
-};
-
-const saveCourses = (courses: Course[]) => {
-  localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(courses));
-};
-
-const loadFavoriteCourses = (): Set<number> => {
-  const storedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
-  return storedFavorites ? new Set(JSON.parse(storedFavorites)) : new Set<number>();
-};
-
-const saveFavoriteCourses = (favorites: Set<number>) => {
-  localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(Array.from(favorites)));
-};
-
-export const CoursesProvider = ({ children }: Props) => {
-  const [courses, setCourses] = useState<Course[]>(loadCourses());
-  const [favorites, setFavorites] = useState(loadFavoriteCourses());
-  const [searchTerm, setSearchTerm] = useState<string>('');
+const useCourseFiltersState = (courses: Course[]) => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [filterLevel, setFilterLevel] = useState<CourseLevel | 'all'>('all');
   const [filterCategory, setFilterCategory] = useState<CourseCategory | 'all'>('all');
+  const [filterInstructor, setFilterInstructor] = useState('');
+
+  const filteredCourses = useMemo(() => {
+    const normalizedSearch = searchTerm.toLowerCase().trim();
+
+    return courses.filter((course) => {
+      const matchesSearch = course.title.toLowerCase().includes(normalizedSearch);
+      const matchesCategory = filterCategory === 'all' || filterCategory === course.category;
+      const matchesLevel = filterLevel === 'all' || filterLevel === course.level;
+      const matchesInstructor = filterInstructor === '' || filterInstructor === course.instructor;
+
+      return matchesSearch && matchesCategory && matchesLevel && matchesInstructor;
+    });
+  }, [courses, searchTerm, filterLevel, filterCategory, filterInstructor]);
+
+  return {
+    filteredCourses,
+    searchTerm,
+    filterLevel,
+    filterCategory,
+    filterInstructor,
+    setSearchTerm,
+    setFilterLevel,
+    setFilterCategory,
+    setFilterInstructor,
+  };
+};
+
+const useCoursesFavoritesState = (courses: Course[], initialFavorites: () => Set<number>) => {
+  const [favorites, setFavorites] = useState(initialFavorites);
+
+  const toggleFavorite = (courseId: number) => {
+    const newSet = new Set(favorites);
+    if (newSet.has(courseId)) {
+      newSet.delete(courseId);
+    } else {
+      newSet.add(courseId);
+    }
+    setFavorites(newSet);
+  };
+
+  const favoriteCourses = useMemo(
+    () => courses.filter((course) => favorites.has(course.id)),
+    [courses, favorites],
+  );
+
+  return { favorites, favoriteCourses, toggleFavorite };
+};
+
+const useInstructorsState = (courses: Course[]) => {
+  const instructors = useMemo(() => {
+    const uniqueInstructors = new Set(courses.map((course) => course.instructor.trim()));
+    return Array.from(uniqueInstructors).sort();
+  }, [courses]);
+
+  return { instructors };
+};
+
+const useCourseContext = (): CoursesContextType => {
+  const [courses, setCourses] = useState<Course[]>(loadCourses);
+  const { favorites, favoriteCourses, toggleFavorite } = useCoursesFavoritesState(
+    courses,
+    loadFavoriteCourses,
+  );
+
+  const { instructors } = useInstructorsState(courses);
+
+  const {
+    filteredCourses,
+    searchTerm,
+    filterLevel,
+    filterCategory,
+    filterInstructor,
+    setSearchTerm,
+    setFilterLevel,
+    setFilterCategory,
+    setFilterInstructor,
+  } = useCourseFiltersState(courses);
 
   const addCourse = (payload: CourseFormData) => {
     const maxId = Math.max(0, ...courses.map((course) => course.id));
@@ -62,32 +117,6 @@ export const CoursesProvider = ({ children }: Props) => {
     }
   };
 
-  const toggleFavorite = (courseId: number) => {
-    const newSet = new Set(favorites);
-    if (newSet.has(courseId)) {
-      newSet.delete(courseId);
-    } else {
-      newSet.add(courseId);
-    }
-    setFavorites(newSet);
-  };
-
-  const getFavoriteCourses = () => {
-    return courses.filter((course) => favorites.has(course.id));
-  };
-
-  const getFilteredCourses = () => {
-    return courses.filter((course) => {
-      const matchesSearchTerm =
-        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = filterCategory === 'all' || filterCategory === course.category;
-      const matchesLevel = filterLevel === 'all' || filterLevel === course.level;
-
-      return matchesSearchTerm && matchesCategory && matchesLevel;
-    });
-  };
-
   useEffect(() => {
     saveCourses(courses);
   }, [courses]);
@@ -96,23 +125,30 @@ export const CoursesProvider = ({ children }: Props) => {
     saveFavoriteCourses(favorites);
   }, [favorites]);
 
-  const value: CoursesContextType = {
+  return {
     courses,
+    favoriteCourses,
+    filteredCourses,
+    instructors,
     favorites,
     searchTerm,
     filterLevel,
     filterCategory,
+    filterInstructor,
     setSearchTerm,
     setFilterLevel,
     setFilterCategory,
+    setFilterInstructor,
     addCourse,
     getCourseById,
     updateCourse,
     deleteCourse,
     toggleFavorite,
-    getFavoriteCourses,
-    getFilteredCourses,
   };
+};
+
+export const CoursesProvider = ({ children }: Props) => {
+  const value = useCourseContext();
 
   return <CoursesContext.Provider value={value}>{children}</CoursesContext.Provider>;
 };

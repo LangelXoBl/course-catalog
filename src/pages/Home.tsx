@@ -4,20 +4,28 @@ import { SearchBar } from '../components/SearchBar';
 import { useCourses } from '../hooks/useCourses';
 
 export const Home = () => {
-  const { getFilteredCourses } = useCourses();
-  const courses = getFilteredCourses();
   return (
-    <section className="flex flex-col items-center gap-8 p-4 bg-surface text-content shadow-xl rounded-2xl">
-      <h1 className="text-2xl font-bold">Cursos disponibles</h1>
+    <section className="flex flex-col gap-4 p-4 bg-surface text-content shadow-xl rounded-2xl">
+      <h1 className="text-2xl font-bold text-center">Cursos disponibles</h1>
       <div className=" w-full flex justify-between items-center gap-4">
         <SearchBar />
         <FilterBar />
       </div>
+      <GridCourses />
+    </section>
+  );
+};
+
+const GridCourses = () => {
+  const { filteredCourses } = useCourses();
+  return (
+    <>
+      <span className="text-muted">Mostrando {filteredCourses.length} cursos</span>
       <div className="grid grid-cols-2 gap-4">
-        {courses.map((course) => {
+        {filteredCourses.map((course) => {
           return <CourseCard key={course.id} Course={course} />;
         })}
       </div>
-    </section>
+    </>
   );
 };

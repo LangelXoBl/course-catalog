@@ -2,7 +2,15 @@ import { useCourses } from '../hooks/useCourses';
 import type { CourseLevel, CourseCategory } from '../types/Course';
 
 export const FilterBar = () => {
-  const { filterLevel, filterCategory, setFilterLevel, setFilterCategory } = useCourses();
+  const {
+    instructors,
+    filterLevel,
+    filterCategory,
+    filterInstructor,
+    setFilterLevel,
+    setFilterCategory,
+    setFilterInstructor,
+  } = useCourses();
 
   return (
     <div className="flex gap-2 items-center text-content">
@@ -38,6 +46,24 @@ export const FilterBar = () => {
           <option value="data_science">Ciencia de Datos</option>
           <option value="design">Diseño</option>
           <option value="business">Negocios</option>
+        </select>
+      </div>
+      <div className="flex gap-2 items-center">
+        <label className="text-lg" htmlFor="instructor-filter">
+          Instructor:
+        </label>
+        <select
+          id="instructor-filter"
+          value={filterInstructor}
+          onChange={(e) => setFilterInstructor(e.target.value)}
+          className="p-2 border-2 border-tertiary rounded-lg bg-surface"
+        >
+          <option value="">Todos</option>
+          {instructors.map((instructor) => (
+            <option key={instructor} value={instructor}>
+              {instructor}
+            </option>
+          ))}
         </select>
       </div>
     </div>

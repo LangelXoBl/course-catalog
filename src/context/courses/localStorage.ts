@@ -1,4 +1,5 @@
 import { initialCourses } from '../../constants/seedCourses';
+
 import type { Course } from '../../types/Course';
 
 const COURSE_STORAGE_KEY = 'courses';

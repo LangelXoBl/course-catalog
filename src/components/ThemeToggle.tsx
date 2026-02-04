@@ -1,7 +1,8 @@
-import type { Theme } from '../context/theme/Context';
 import { useTheme } from '../hooks/useTheme';
 import { Moon } from './icons/Moon';
 import { Sun } from './icons/Sun';
+
+import type { Theme } from '../context/theme/Context';
 
 const getThemeLabel = (theme: Theme) => {
   return theme === 'dark' ? 'Claro' : 'Oscuro';

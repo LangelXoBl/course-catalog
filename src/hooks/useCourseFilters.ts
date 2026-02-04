@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import { FiltersCourseContext } from '../context/courses/filters/Context';
 
 export const useCourseFilters = () => {

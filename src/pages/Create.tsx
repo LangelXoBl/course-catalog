@@ -1,5 +1,6 @@
 import { CourseForm } from '../components/CourseForm';
 import { useCourses } from '../hooks/useCourses';
+
 import type { CourseFormData } from '../types/Course';
 
 export const Create = () => {

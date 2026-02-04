@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+
 import { ThemeContext, type Theme, type ThemeContextType } from './Context';
 
 interface ThemeProviderProps {

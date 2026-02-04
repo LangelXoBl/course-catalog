@@ -1,10 +1,13 @@
+import { Link, useNavigate } from 'react-router';
+
+import { FavoriteToggle } from './FavoriteToggle';
 import { labelCategory, labelLevel } from '../constants/seedCourses';
 import { useCourses } from '../hooks/useCourses';
-import type { Course } from '../types/Course';
-import { FavoriteToggle } from './FavoriteToggle';
 import { ClockIcon } from './icons/Clock';
 import { LevelIcon } from './icons/Level';
-import { Link, useNavigate } from 'react-router';
+
+import type { Course } from '../types/Course';
+
 
 interface Props {
   Course: Course;

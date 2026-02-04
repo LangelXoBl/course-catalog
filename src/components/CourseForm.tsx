@@ -1,7 +1,10 @@
 import { useState, type FormEvent } from 'react';
+
 import { useNavigate } from 'react-router';
-import type { CourseFormData, CourseLevel, CourseCategory } from '../types/Course';
+
 import { useCourses } from '../hooks/useCourses';
+
+import type { CourseFormData, CourseLevel, CourseCategory } from '../types/Course';
 
 interface Props {
   initialData?: CourseFormData;

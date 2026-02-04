@@ -1,6 +1,8 @@
 import { useReducer } from 'react';
-import { filterReducer, FiltersActionType } from '../../../reducers/filters';
+
 import { FiltersCourseContext } from './Context';
+import { filterReducer, FiltersActionType } from '../../../reducers/filters';
+
 import type { CourseLevel, CourseCategory } from '../../../types/Course';
 
 export const FiltersCourseProvider = ({ children }: { children: React.ReactNode }) => {

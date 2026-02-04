@@ -1,4 +1,5 @@
 import { useCourseFilters } from '../hooks/useCourseFilters';
+
 //import { useCourses } from '../hooks/useCourses';
 import type { CourseLevel, CourseCategory } from '../types/Course';
 

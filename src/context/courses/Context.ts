@@ -1,5 +1,6 @@
 import { createContext } from 'react';
-import type { Course, CourseLevel, CourseCategory, CourseFormData } from '../../types/Course';
+
+import type { Course, CourseFormData } from '../../types/Course';
 
 export interface CoursesContextType {
   courses: Course[];

@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+
 import type { CourseCategory, CourseLevel } from '../../../types/Course';
 
 export interface FiltersState {

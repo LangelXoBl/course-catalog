@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import { CoursesContext } from '../context/courses/Context';
 
 export const useCourses = () => {

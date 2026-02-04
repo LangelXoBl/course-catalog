@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router';
+
 import { useCourses } from '../hooks/useCourses';
 
 export const Details = () => {

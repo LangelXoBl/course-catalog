@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
-import { ThemeToggle } from '../ThemeToggle';
+
 import { useCourses } from '../../hooks/useCourses';
+import { ThemeToggle } from '../ThemeToggle';
 
 export const Navbar = () => {
   return (

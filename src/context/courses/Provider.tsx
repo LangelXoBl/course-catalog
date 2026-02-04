@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
+
 import { CoursesContext, type CoursesContextType } from './Context';
-import type { Course, CourseFormData } from '../../types/Course';
 import { loadCourses, loadFavoriteCourses, saveCourses, saveFavoriteCourses } from './localStorage';
 import { useCourseFilters } from '../../hooks/useCourseFilters';
+
+import type { Course, CourseFormData } from '../../types/Course';
 
 interface Props {
   children: ReactNode;

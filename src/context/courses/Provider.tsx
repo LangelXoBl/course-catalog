@@ -1,43 +1,12 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { CoursesContext, type CoursesContextType } from './Context';
-import type { Course, CourseCategory, CourseFormData, CourseLevel } from '../../types/Course';
+import type { Course, CourseFormData } from '../../types/Course';
 import { loadCourses, loadFavoriteCourses, saveCourses, saveFavoriteCourses } from './localStorage';
+import { useCourseFilters } from '../../hooks/useCourseFilters';
 
 interface Props {
   children: ReactNode;
 }
-
-const useCourseFiltersState = (courses: Course[]) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterLevel, setFilterLevel] = useState<CourseLevel | 'all'>('all');
-  const [filterCategory, setFilterCategory] = useState<CourseCategory | 'all'>('all');
-  const [filterInstructor, setFilterInstructor] = useState('');
-
-  const filteredCourses = useMemo(() => {
-    const normalizedSearch = searchTerm.toLowerCase().trim();
-
-    return courses.filter((course) => {
-      const matchesSearch = course.title.toLowerCase().includes(normalizedSearch);
-      const matchesCategory = filterCategory === 'all' || filterCategory === course.category;
-      const matchesLevel = filterLevel === 'all' || filterLevel === course.level;
-      const matchesInstructor = filterInstructor === '' || filterInstructor === course.instructor;
-
-      return matchesSearch && matchesCategory && matchesLevel && matchesInstructor;
-    });
-  }, [courses, searchTerm, filterLevel, filterCategory, filterInstructor]);
-
-  return {
-    filteredCourses,
-    searchTerm,
-    filterLevel,
-    filterCategory,
-    filterInstructor,
-    setSearchTerm,
-    setFilterLevel,
-    setFilterCategory,
-    setFilterInstructor,
-  };
-};
 
 const useCoursesFavoritesState = (courses: Course[], initialFavorites: () => Set<number>) => {
   const [favorites, setFavorites] = useState(initialFavorites);
@@ -75,20 +44,34 @@ const useCourseContext = (): CoursesContextType => {
     courses,
     loadFavoriteCourses,
   );
+  const { category, instructor, level, searchQuery } = useCourseFilters();
+
+  const filteredCourses = useMemo(() => {
+    const normalizedSearch = searchQuery.toLowerCase().trim();
+
+    return courses.filter((course) => {
+      const matchesSearch = course.title.toLowerCase().includes(normalizedSearch);
+      const matchesCategory = category === 'all' || category === course.category;
+      const matchesLevel = level === 'all' || level === course.level;
+      const matchesInstructor = instructor === '' || instructor === course.instructor;
+
+      return matchesSearch && matchesCategory && matchesLevel && matchesInstructor;
+    });
+  }, [courses, category, instructor, level, searchQuery]);
 
   const { instructors } = useInstructorsState(courses);
 
-  const {
-    filteredCourses,
-    searchTerm,
-    filterLevel,
-    filterCategory,
-    filterInstructor,
-    setSearchTerm,
-    setFilterLevel,
-    setFilterCategory,
-    setFilterInstructor,
-  } = useCourseFiltersState(courses);
+  // const {
+  //   filteredCourses,
+  //   searchTerm,
+  //   filterLevel,
+  //   filterCategory,
+  //   filterInstructor,
+  //   setSearchTerm,
+  //   setFilterLevel,
+  //   setFilterCategory,
+  //   setFilterInstructor,
+  // } = useCourseFiltersState(courses);
 
   const addCourse = (payload: CourseFormData) => {
     const maxId = Math.max(0, ...courses.map((course) => course.id));
@@ -131,14 +114,6 @@ const useCourseContext = (): CoursesContextType => {
     filteredCourses,
     instructors,
     favorites,
-    searchTerm,
-    filterLevel,
-    filterCategory,
-    filterInstructor,
-    setSearchTerm,
-    setFilterLevel,
-    setFilterCategory,
-    setFilterInstructor,
     addCourse,
     getCourseById,
     updateCourse,
@@ -147,7 +122,7 @@ const useCourseContext = (): CoursesContextType => {
   };
 };
 
-export const CoursesProvider = ({ children }: Props) => {
+export const CoursesDataProvider = ({ children }: Props) => {
   const value = useCourseContext();
 
   return <CoursesContext.Provider value={value}>{children}</CoursesContext.Provider>;

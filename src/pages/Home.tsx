@@ -4,6 +4,7 @@ import { SearchBar } from '../components/SearchBar';
 import { useCourses } from '../hooks/useCourses';
 
 export const Home = () => {
+  console.log('Home rendered');
   return (
     <section className="flex flex-col gap-4 p-4 bg-surface text-content shadow-xl rounded-2xl">
       <h1 className="text-2xl font-bold text-center">Cursos disponibles</h1>
@@ -17,6 +18,7 @@ export const Home = () => {
 };
 
 const GridCourses = () => {
+  console.log('GridCourses rendered');
   const { filteredCourses } = useCourses();
   return (
     <>

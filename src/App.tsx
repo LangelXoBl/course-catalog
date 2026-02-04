@@ -1,12 +1,13 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
 import { ThemeProvider } from './context/theme/Provider';
 import { Home } from './pages/Home';
-import { CoursesProvider } from './context/courses/Provider';
+
 import { Create } from './pages/Create';
 import { Layout } from './components/Layout';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import { Edit } from './pages/Edit';
 import { Favorites } from './pages/Favorites';
 import { Details } from './pages/Details';
+import { CoursesProvider } from './context/courses';
 
 function App() {
   return (

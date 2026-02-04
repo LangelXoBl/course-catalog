@@ -1,16 +1,10 @@
-import { useCourses } from '../hooks/useCourses';
+import { useCourseFilters } from '../hooks/useCourseFilters';
+//import { useCourses } from '../hooks/useCourses';
 import type { CourseLevel, CourseCategory } from '../types/Course';
 
 export const FilterBar = () => {
-  const {
-    instructors,
-    filterLevel,
-    filterCategory,
-    filterInstructor,
-    setFilterLevel,
-    setFilterCategory,
-    setFilterInstructor,
-  } = useCourses();
+  const { category, instructor, level, setFilterLevel, setFilterCategory, setFilterInstructor } =
+    useCourseFilters();
 
   return (
     <div className="flex gap-2 items-center text-content">
@@ -20,7 +14,7 @@ export const FilterBar = () => {
         </label>
         <select
           id="level-filter"
-          value={filterLevel}
+          value={level}
           onChange={(e) => setFilterLevel(e.target.value as CourseLevel | 'all')}
           className="p-2 border-2 border-tertiary rounded-lg bg-surface"
         >
@@ -36,7 +30,7 @@ export const FilterBar = () => {
         </label>
         <select
           id="category-filter"
-          value={filterCategory}
+          value={category}
           onChange={(e) => setFilterCategory(e.target.value as CourseCategory | 'all')}
           className="p-2 border-2 border-tertiary rounded-lg bg-surface"
         >
@@ -54,16 +48,16 @@ export const FilterBar = () => {
         </label>
         <select
           id="instructor-filter"
-          value={filterInstructor}
+          value={instructor}
           onChange={(e) => setFilterInstructor(e.target.value)}
           className="p-2 border-2 border-tertiary rounded-lg bg-surface"
         >
           <option value="">Todos</option>
-          {instructors.map((instructor) => (
+          {/* {instructors.map((instructor) => (
             <option key={instructor} value={instructor}>
               {instructor}
             </option>
-          ))}
+          ))} */}
         </select>
       </div>
     </div>
